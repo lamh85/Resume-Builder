@@ -14,9 +14,17 @@ function App() {
   }
 
   const output = () => {
-    const lines = rawText.split('\n').map((line) => {
-      return <p>{`[${prefix}] ${line}`}</p>
-    })
+    const lines = rawText
+      .split('\n')
+      .filter((line) => line.length > 0)
+      .map((line) => {
+        return (
+          <>
+            <p>{`[${prefix}] ${line}`}</p>
+            <p></p>
+          </>
+        )
+      })
 
     return lines
   }
