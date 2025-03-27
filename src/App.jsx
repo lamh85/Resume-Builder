@@ -13,20 +13,27 @@ function App() {
     setPrefix(event.target.value)
   }
 
-  const output = () => {
-    const lines = rawText
+  const outputTextOnly = () => {
+    return rawText
       .split('\n')
       .filter((line) => line.length > 0)
-      .map((line) => {
-        return (
-          <>
-            <p>{`[${prefix}] ${line}`}</p>
-            <p></p>
-          </>
-        )
-      })
+      .map((line) => `[${prefix}] ${line}`)
+  }
 
-    return lines
+  const output = () => {
+    return outputTextOnly().map((line) => {
+      return (
+        <>
+          <p>{line}</p>
+          <p></p>
+        </>
+      )
+    })
+  }
+
+  const handleCopy = async () => {
+    const toCopy = outputTextOnly().join('\n\n')
+    await navigator.clipboard.writeText(toCopy)
   }
 
   const containerStyle = {
@@ -54,7 +61,8 @@ function App() {
       </div>
       <div style={columnStyle}>
         <h2>Output</h2>
-        {output()}
+        <div>{output()}</div>
+        <button onClick={handleCopy}>Copy Text</button>
       </div>
     </div>
   )
